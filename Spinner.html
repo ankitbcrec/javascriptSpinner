@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin The Wheel ! </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #0070d2;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            position: relative;
+        }
+        .wheel {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 10px solid #005bb5;
+            position: relative;
+            overflow: hidden;
+            margin: 20px auto;
+            transition: transform 4s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+        .wheel div {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-color: #005bb5;
+            border: 2px solid white;
+            box-sizing: border-box;
+            transform-origin: 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: white;
+        }
+        /* Adjusting initial positions to match arrow on right */
+        .wheel div:nth-child(1) { transform: rotate(0deg); }      /* 111 */
+        .wheel div:nth-child(2) { transform: rotate(72deg); }     /* 222 */
+        .wheel div:nth-child(3) { transform: rotate(144deg); }    /* 333 */
+        .wheel div:nth-child(4) { transform: rotate(216deg); }    /* 444 */
+        .wheel div:nth-child(5) { transform: rotate(288deg); }    /* 555 */
+
+        button {
+            background-color: #005bb5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 2em;
+            color: #ffcc00;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            right: -40px;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 30px;
+            background-color: #2ecc71;
+            clip-path: polygon(0 50%, 100% 0, 100% 100%);
+        }
+
+        .wheel-container {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Spin The Wheel ! </h1>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+            <div>111</div>
+            <div>222</div>
+            <div>333</div>
+            <div>444</div>
+            <div>555</div>
+        </div>
+        <div class="arrow"></div>
+    </div>
+    <button onclick="runSpinner()">Spin!</button>
+    <div class="result" id="result">Winning Number: -</div>
+</div>
+
+<script>
+    function runSpinner() {
+        const wheel = document.getElementById('wheel');
+        const resultDisplay = document.getElementById('result');
+        const button = document.querySelector('button');
+        
+        // Disable button during spin
+        button.disabled = true;
+        
+        // Calculate spin degrees
+        const initialRPM = 200;
+        const totalDegrees = (initialRPM * 360 / 60) * 4;
+        const randomDegree = totalDegrees + Math.floor(Math.random() * 360);
+
+        // Apply rotation
+        wheel.style.transform = `rotate(${randomDegree}deg)`;
+
+        // Calculate result after spin
+        setTimeout(() => {
+            // Get the final position
+            const finalDegree = (randomDegree % 360);
+            
+            // Each segment is 72 degrees (360/5)
+            // The right side (arrow position) is at 0 degrees
+            // We need to account for clockwise rotation
+            let segment = Math.floor((360 - finalDegree) / 72);
+            
+            // Adjust segment if it's out of bounds
+            if (segment >= 5) segment = 0;
+            
+            // Map segments to numbers based on clockwise rotation
+            // Starting from right side (0 degrees)
+            const numberMap = {
+                0: 111,  // 0-71 degrees
+                1: 555,  // 72-143 degrees
+                2: 444,  // 144-215 degrees
+                3: 333,  // 216-287 degrees
+                4: 222   // 288-359 degrees
+            };
+            
+            const result = numberMap[segment];
+            resultDisplay.innerText = `Winning Number: ${result}`;
+            button.disabled = false;
+        }, 4000);
+    }
+</script>
+</body>
+</html>
