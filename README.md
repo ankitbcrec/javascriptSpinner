@@ -5,7 +5,6 @@ This project is a simple web-based spinner wheel that allows users to spin a whe
 ## Features
 
 - A visually appealing spinner wheel with numbers.
-- A spinning effect that simulates a real casino experience.
 - A static arrow that indicates the winning number.
 - The ability to spin the wheel at a speed of 200 RPM, gradually slowing down over 4 seconds.
 
@@ -26,13 +25,13 @@ To run this project locally, follow these steps:
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/yourusername/casino-spinner-wheel.git
+   git clone https://github.com/yourusername/javascriptSpinner.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```
-   cd casino-spinner-wheel
+   cd javascriptSpinner
    ```
 3. **Open the index.html file in your web browser**
 
